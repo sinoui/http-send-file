@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import http from '@sinoui/http';
 
 interface OptionInterface {
@@ -28,7 +29,7 @@ function sendFile(
       );
     }
   } else {
-    formData.append(keyName, files as any);
+    formData.append(keyName, files[0]);
   }
 
   if (data) {
