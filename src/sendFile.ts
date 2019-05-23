@@ -43,14 +43,7 @@ function sendFile(
     },
   };
 
-  http
-    .post(url, formData, { ...config, onUploadProgress })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      throw error;
-    });
+  return http.post(url, formData, { ...config, onUploadProgress });
 }
 
 export default sendFile;

@@ -5,16 +5,7 @@ describe('sendFile', () => {
   const blob = new Blob();
   beforeEach(() => {
     nock('http://localhost')
-      .post('/test', {
-        file: {
-          id: '001',
-          name: '文件1',
-          lastModified: 12,
-          size: 12356,
-          type: '.docx',
-          slice: () => blob,
-        },
-      })
+      .post('/test')
       .reply(200, '上传成功');
   });
 
@@ -30,5 +21,7 @@ describe('sendFile', () => {
       },
     ];
     const response = await sendFile('http://localhost/test', file);
+
+    expect(response).toBe('上传成功');
   });
 });

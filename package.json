@@ -47,7 +47,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@babel/runtime": "^7.4.5",
-    "@sinoui/http": "^0.1.0"
+    "@sinoui/http": "^0.1.1"
   },
   "devDependencies": {
     "@types/nock": "^10.0.3",

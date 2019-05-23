@@ -928,10 +928,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sinoui/http@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@sinoui/http/-/http-0.1.0.tgz#1895de494ff35cd6353d9f8f2b317865dd90b57a"
-  integrity sha512-q851221wkckqGxknBX1KUygf/kO5wsZ+Vpz86N6xomj+8dd0DiVr4/sR4319jf/phoDfj0pgrfIC3/FPs3wU4A==
+"@sinoui/http@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@sinoui/http/-/http-0.1.1.tgz#de90732912bc52c263d5b2769a3ec70224c82547"
+  integrity sha512-ANDY0obRQlbLaxKyd/z4gk0pdpNgyzoXg3u1eEOXZSOfTdMAlvlyrUE12NVZe2KG+jATdPgfGK7kSZXW/UgTng==
   dependencies:
     "@babel/polyfill" "^7.4.4"
     "@babel/runtime" "^7.4.4"
