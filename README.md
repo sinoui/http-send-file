@@ -38,7 +38,7 @@ import sendFile from '@sinoui/http-send-file';
 
 function uploadFile() {
   const file = document.getElementById('file').files[0];
-  	sendFile('http://localhost:3000/files', file)
+  sendFile('http://localhost:3000/files', file)
     .then((response) => {
       if (response.status === 200) {
         console.log('上传成功');
@@ -57,9 +57,8 @@ Java 后端可以解析`repeat`格式的，`Node`、`Python`、`Ruby`后端可�
 ```ts
 import sendFile from '@sinoui/http-send-file';
 
-async function uploadFileDemo(){
-    ...
-      await sendFile(url, files, {
+async function uploadFileDemo() {
+  await sendFile(url, files, {
     arrayFormat: 'indices',
   });
 }
@@ -70,9 +69,8 @@ async function uploadFileDemo(){
 ```ts
 import sendFile from '@sinoui/http-send-file';
 
-async function uploadFileDemo(){
-    ...
-    await sendFile(url, files, 'usePhotot', {
+async function uploadFileDemo() {
+  await sendFile(url, files, 'usePhotot', {
     data: {
       userId: '123',
       userName: 'zhangsan',
@@ -92,8 +90,7 @@ const onUploadProgress = (progressEvent: ProgressEvent) => {
   );
 };
 
-async function uploadFileDemo(){
-    ...
+async function uploadFileDemo() {
   await sendFile(url, files, {
     onUploadProgress,
   });
@@ -116,7 +113,7 @@ async function uploadFileDemo(){
 
 - `options` (object)
 
-  请求配置，包括`arrayFormat`、`onUploadProgress`、`data`等。其中：
+  请求配置，支持所有的[Axios Request Config](https://github.com/axios/axios#request-config)，除此之外，还包括`arrayFormat`。其中：
 
   - arrayFormat
 
@@ -128,7 +125,16 @@ async function uploadFileDemo(){
 
   - data
 
-    指定需要的额外数据
+    指定需要的额外数据。必须是可以加入到`FormData`中的对象，如：
+
+    ```js
+    const extraFormData = {
+      userId: '123',
+      userName: '张三',
+    };
+    ```
+
+    对象中的属性值只支持原始类型。
 
   - onUploadProgress
 

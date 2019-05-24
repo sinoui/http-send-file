@@ -100,22 +100,13 @@ export function appendDataToFormData(
 export function setRequestHeader(
   httpOptions: HttpRequestConfig,
 ): HttpRequestConfig {
-  let options = httpOptions;
-  if (!httpOptions.headers) {
-    options = {
-      ...httpOptions,
-      headers: {},
-    };
-  }
-  options = {
+  return {
     ...httpOptions,
     headers: {
-      ...options.headers,
+      ...httpOptions.headers,
       'Content-Type': 'multipart/form-data',
     },
   };
-
-  return options;
 }
 
 const defaultOptions: OptionInterface = {};
@@ -181,9 +172,7 @@ function sendFile<T>(
 
   appendDataToFormData(formData, data);
 
-  const newhttpOptions = setRequestHeader(httpOptions);
-
-  return http.post(url, formData, newhttpOptions);
+  return http.post(url, formData, setRequestHeader(httpOptions));
 }
 
 export default sendFile;
