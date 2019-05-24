@@ -8,8 +8,6 @@ interface MockResponseInterface {
 }
 
 describe('sendFile', () => {
-  const blob = new Blob();
-
   it('200', async () => {
     const file = new File([''], 'test.txt');
     const response = await sendFile<MockResponseInterface>(
