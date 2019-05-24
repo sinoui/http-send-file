@@ -1,6 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import http, { HttpRequestConfig } from '@sinoui/http';
 
+interface ExtraDataInterface {
+  [x: string]: string | Blob;
+}
+
+/**
+ * 文件上传接口的配置
+ *
+ * @interface OptionInterface
+ * @extends {HttpRequestConfig}
+ */
 interface OptionInterface extends HttpRequestConfig {
   /**
    * 一组文件对象添加到FormData时组织`key`的方式。默认为`repeat`。
@@ -18,48 +28,70 @@ interface OptionInterface extends HttpRequestConfig {
    * @memberof OptionInterface
    */
   onUploadProgress?: (progressEvent: ProgressEvent) => void;
+  /**
+   * 指定额外的表单数据。此表单数据会和文件数据一起传输到后端。
+   *
+   * @type {ExtraDataInterface}
+   * @memberof OptionInterface
+   */
+  data?: ExtraDataInterface;
 }
 
 /**
- * 处理表单数据
+ * 创建文件的表单数据对象
  *
- * @param {(File[] | File)} files
- * @param {string} keyName
- * @param {OptionInterface} options
- * @returns
+ * @param files 文件列表
+ * @param fileFieldName 文件表单域名称
+ * @param arrayFormat 文件表单域名称添加到FormData中的规则
  */
-function handleFormData(
+export function createFileFormData(
   files: File[] | File,
-  keyName: string,
-  options: OptionInterface,
+  fileFieldName: string,
+  arrayFormat: 'repeat' | 'indices',
 ) {
   const formData = new FormData();
-
-  const { arrayFormat = 'repeat', data = {} } = options || {};
 
   if (Array.isArray(files)) {
     if (files.length > 1) {
       if (arrayFormat === 'repeat') {
-        files.forEach((file) => formData.append(keyName, file));
+        files.forEach((file) => formData.append(fileFieldName, file));
       } else {
         files.forEach((file, index) =>
-          formData.append(`${keyName}[${index}]`, file),
+          formData.append(`${fileFieldName}[${index}]`, file),
         );
       }
     } else {
-      formData.append(keyName, files[0]);
+      formData.append(fileFieldName, files[0]);
     }
   } else {
-    formData.append(keyName, files);
-  }
-
-  if (data) {
-    const keys = Object.keys(data);
-    keys.forEach((key: string) => formData.append(key, (data as any)[key]));
+    formData.append(fileFieldName, files);
   }
 
   return formData;
 }
+
+/**
+ * 向FormData中添加数据
+ *
+ * @param {FormData} formData
+ * @param {{
+ *     [x: string]: string | File | null | undefined;
+ *   }} [data]
+ * @returns
+ */
+export function appendDataToFormData(
+  formData: FormData,
+  data?: ExtraDataInterface,
+): FormData {
+  if (data) {
+    const keys = Object.keys(data);
+    keys.forEach((key: string) => formData.append(key, data[key]));
+  }
+
+  return formData;
+}
+
+const defaultOptions: OptionInterface = {};
 
 /**
  * 上传文件
@@ -115,9 +147,12 @@ function sendFile<T>(
       ? (fileFieldName as OptionInterface)
       : options;
 
-  const httpOptions = options$ || {};
+  const { arrayFormat = 'repeat', data, ...httpOptions } =
+    options$ || defaultOptions;
 
-  const formData = handleFormData(files, keyName, httpOptions);
+  const formData = createFileFormData(files, keyName, arrayFormat);
+
+  appendDataToFormData(formData, data);
 
   if (!httpOptions.headers) {
     httpOptions.headers = {};
