@@ -73,11 +73,10 @@ export function createFileFormData(
 /**
  * 向FormData中添加数据
  *
+ * @export
  * @param {FormData} formData
- * @param {{
- *     [x: string]: string | File | null | undefined;
- *   }} [data]
- * @returns
+ * @param {ExtraDataInterface} [data]
+ * @returns {FormData}
  */
 export function appendDataToFormData(
   formData: FormData,
@@ -91,16 +90,44 @@ export function appendDataToFormData(
   return formData;
 }
 
+/**
+ * 设置文件上传请求的headers
+ *
+ * @export
+ * @param {HttpRequestConfig} httpOptions
+ * @returns {HttpRequestConfig}
+ */
+export function setRequestHeader(
+  httpOptions: HttpRequestConfig,
+): HttpRequestConfig {
+  let options = httpOptions;
+  if (!httpOptions.headers) {
+    options = {
+      ...httpOptions,
+      headers: {},
+    };
+  }
+  options = {
+    ...httpOptions,
+    headers: {
+      ...options.headers,
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  return options;
+}
+
 const defaultOptions: OptionInterface = {};
 
 /**
  * 上传文件
  *
  * @template T
- * @param {string} url
- * @param {(File[] | File)} files
- * @param {string} [fileFieldName]
- * @param {OptionInterface} [options]
+ * @param {string} url 指定文件上传url
+ * @param {(File[] | File)} files 需要上传的文件
+ * @param {string} [fileFieldName] 表单域名称
+ * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
@@ -114,9 +141,9 @@ function sendFile<T>(
  * 上传文件
  *
  * @template T
- * @param {string} url
- * @param {(File[] | File)} files
- * @param {OptionInterface} [options]
+ * @param {string} url 指定文件上传的url
+ * @param {(File[] | File)} files 需要上传的文件
+ * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
@@ -129,10 +156,10 @@ function sendFile<T>(
  * 上传文件
  *
  * @template T
- * @param {string} url
- * @param {(File[] | File)} files
- * @param {(string | OptionInterface)} [fileFieldName]
- * @param {OptionInterface} [options]
+ * @param {string} url 指定文件上传的url
+ * @param {(File[] | File)} files 需要上传的文件
+ * @param {(string | OptionInterface)} [fileFieldName] 表单域名称
+ * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
@@ -154,13 +181,9 @@ function sendFile<T>(
 
   appendDataToFormData(formData, data);
 
-  if (!httpOptions.headers) {
-    httpOptions.headers = {};
-  } else {
-    httpOptions.headers['Content-Type'] = 'multipart/form-data';
-  }
+  const newhttpOptions = setRequestHeader(httpOptions);
 
-  return http.post(url, formData, httpOptions);
+  return http.post(url, formData, newhttpOptions);
 }
 
 export default sendFile;
