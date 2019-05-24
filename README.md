@@ -1,18 +1,18 @@
 # @sinoui/http-send-file
 
-@sinoui/http-send-file旨在提供一种便捷的方式用于文件上传。
+@sinoui/http-send-file 旨在提供一种便捷的方式用于文件上传。
 
 ## 安装
 
 执行下面的命令即可款速安装：
 
-* 使用npm
+- 使用 npm
 
   ```shell
   npm install --save @sinoui/http-send-file
   ```
 
-* 使用yarn
+- 使用 yarn
 
   ```shell
   yarn add @sinoui/http-send-file
@@ -20,135 +20,116 @@
 
 ## 快速使用
 
-* 单个文件上传，不指定`fileFiledName`
+`html文件`
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-      await sendFile(url, file);
-  }
-  ```
+```html
+<html>
+  <body>
+    <input id="file" type="file" />
+    <input type="button" value="文件上传" onclick="uploadFile()" />
+  </body>
+</html>
+```
 
-* 单个文件上传，指定`fileFieldName`
+`js文件`
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-      await sendFile(url, file,'myFile');
-  }
-  ```
+```ts
+import sendFile from '@sinoui/http-send-file';
 
-* 多个文件上传
+function uploadFile() {
+  const file = document.getElementById('file').files[0];
+  	sendFile('http://localhost:3000/files', file)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('上传成功');
+      }
+    })
+    .catch((error) => console.error('上传失败'));
+}
+```
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-    // 上传多个文件
-    await sendFile(url, files);
-  
-    // 指定文件表单域名称，默认为file
-    await sendFile(url, files, 'userPhoto');
-  }
-  ```
+### 上传一组文件
 
-* 上传文件至`node`服务器
+一组文件对象添加到 FormData 时组织`key`的方式：indices | repeat。
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-       await sendFile(url, files, {
-      arrayFormat: 'indices',
-    });
-  }
-  ```
+Java 后端可以解析`repeat`格式的，`Node`、`Python`、`Ruby`后端可以解析`indices`格式的。
 
-* 配置表单域并指定服务器类型
+```ts
+import sendFile from '@sinoui/http-send-file';
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-       await sendFile(url, files,'myFile', {
-      arrayFormat: 'indices',
-    });
-  }
-  ```
-
-* 添加额外数据
-
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
+async function uploadFileDemo(){
+    ...
       await sendFile(url, files, {
-      data: {
-        userId: '123',
-        userName: 'zhangsan',
-      },
-    });
-  }
-  
-  ```
+    arrayFormat: 'indices',
+  });
+}
+```
 
-* 文件上传进度
+### 添加额外数据
 
-  ```ts
-  import sendFile from '@sinoui/http-send-file';
-  
-  async function uploadFileDemo(){
-      ...
-      const onUploadProgress = (progressEvent: ProgressEvent) => {
-      console.log(
-        `上传进度：${((progressEvent.loaded / progressEvent.total) * 100) | 0}%`,
-      );
-    };
-    await sendFile(url, files, {
-      onUploadProgress,
-    });
-  }
-  
-  ```
+```ts
+import sendFile from '@sinoui/http-send-file';
 
-## 参数说明
+async function uploadFileDemo(){
+    ...
+    await sendFile(url, files, 'usePhotot', {
+    data: {
+      userId: '123',
+      userName: 'zhangsan',
+    },
+  });
+}
+```
 
-* url (string)
+### 文件上传进度
 
-  指定文件上传的url
+```ts
+import sendFile from '@sinoui/http-send-file';
 
-* files (File[] | File)
+const onUploadProgress = (progressEvent: ProgressEvent) => {
+  console.log(
+    `上传进度：${((progressEvent.loaded / progressEvent.total) * 100) | 0}%`,
+  );
+};
 
-  需要上传的文件
+async function uploadFileDemo(){
+    ...
+  await sendFile(url, files, {
+    onUploadProgress,
+  });
+}
+```
 
-* fileFieldName (string)
+## `sendFile()`方法参数说明
+
+- `url` (string)
+
+  指定文件上传的 url
+
+- `files` (File[] | File)
+
+  需要上传的文件，可以是单个的或者是数组
+
+- `fileFieldName` (string)
 
   指定表单域的名称，默认为`file`
 
-* options (object)
+- `options` (object)
 
   请求配置，包括`arrayFormat`、`onUploadProgress`、`data`等。其中：
 
-  * arrayFormat
+  - arrayFormat
 
-    一组文件对象添加到FormData时组织`key`的方式。默认为`repeat`。
+    一组文件对象添加到 FormData 时组织`key`的方式。默认为`repeat`。
 
-    > * `repeat`: file=file1&file=file2&file=file3
+    > - `repeat`: file=file1&file=file2&file=file3
     >
-    > * `indices`: file[0]=file1&file[1]=file2&file[2]=file3
+    > - `indices`: file[0]=file1&file[1]=file2&file[2]=file3
 
-  * data
+  - data
 
     指定需要的额外数据
 
-  * onUploadProgress
+  - onUploadProgress
 
     文件上传进度回调函数
