@@ -113,7 +113,7 @@ async function uploadFileDemo() {
 
 - `options` (object)
 
-  请求配置，支持所有的[Axios Request Config](https://github.com/axios/axios#request-config)，除此之外，还包括`arrayFormat`。其中：
+  请求配置，支持所有的[Axios 请求配置](https://github.com/axios/axios#request-config)，除此之外，还包括`arrayFormat`。其中：
 
   - arrayFormat
 
