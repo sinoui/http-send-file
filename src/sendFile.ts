@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import http from '@sinoui/http';
+import http, { HttpRequestConfig, HttpResponse } from '@sinoui/http';
 
 interface OptionInterface {
   arrayFormat?: string | 'repeat' | 'indices';
