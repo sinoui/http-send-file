@@ -103,7 +103,7 @@ async function uploadFileDemo() {
 
   指定文件上传的 url
 
-- `files` (File[] | File)
+- `files` (Blob[] | Blob)
 
   需要上传的文件，可以是单个的或者是数组
 

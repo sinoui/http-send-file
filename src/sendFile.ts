@@ -45,7 +45,7 @@ interface OptionInterface extends HttpRequestConfig {
  * @param arrayFormat 文件表单域名称添加到FormData中的规则
  */
 export function createFileFormData(
-  files: File[] | File,
+  files: Blob[] | Blob,
   fileFieldName: string,
   arrayFormat: 'repeat' | 'indices',
 ) {
@@ -116,14 +116,14 @@ const defaultOptions: OptionInterface = {};
  *
  * @template T
  * @param {string} url 指定文件上传url
- * @param {(File[] | File)} files 需要上传的文件
+ * @param {(Blob[] | Blob)} files 需要上传的文件
  * @param {string} [fileFieldName] 表单域名称
  * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
   url: string,
-  files: File[] | File,
+  files: Blob[] | Blob,
   fileFieldName?: string,
   options?: OptionInterface,
 ): Promise<T>;
@@ -133,13 +133,13 @@ function sendFile<T>(
  *
  * @template T
  * @param {string} url 指定文件上传的url
- * @param {(File[] | File)} files 需要上传的文件
+ * @param {(Blob[] | Blob)} files 需要上传的文件
  * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
   url: string,
-  files: File[] | File,
+  files: Blob[] | Blob,
   options?: OptionInterface,
 ): Promise<T>;
 
@@ -148,14 +148,14 @@ function sendFile<T>(
  *
  * @template T
  * @param {string} url 指定文件上传的url
- * @param {(File[] | File)} files 需要上传的文件
+ * @param {(Blob[] | Blob)} files 需要上传的文件
  * @param {(string | OptionInterface)} [fileFieldName] 表单域名称
  * @param {OptionInterface} [options] 请求配置
  * @returns {Promise<T>}
  */
 function sendFile<T>(
   url: string,
-  files: File[] | File,
+  files: Blob[] | Blob,
   fileFieldName?: string | OptionInterface,
   options?: OptionInterface,
 ): Promise<T> {
