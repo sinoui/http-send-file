@@ -139,3 +139,5 @@ async function uploadFileDemo() {
   - onUploadProgress
 
     文件上传进度回调函数
+
+**_注意：_**如果需要稳定上传大文件,推荐使用[send-big-file](https://github.com/sinouiincubator/send-big-file)。
