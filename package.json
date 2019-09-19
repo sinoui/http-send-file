@@ -7,6 +7,13 @@
   "umd:main": "dist/http-send-file.umd.production.js",
   "module": "dist/http-send-file.es.production.js",
   "typings": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/sinoui/http-send-file/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/http-send-file/http.git"
+  },
   "scripts": {
     "start": "ts-lib-tools watch",
     "test": "ts-lib-tools test",
@@ -46,17 +53,17 @@
     "assets"
   ],
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "@babel/runtime": "^7.4.5",
-    "@sinoui/http": "^0.2.2"
+    "@babel/polyfill": "^7.6.0",
+    "@babel/runtime": "^7.6.0",
+    "@sinoui/http": "^1.0.0"
   },
   "devDependencies": {
-    "@types/nock": "^10.0.3",
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "prettier": "^1.17.1",
-    "ts-lib-tools": "^0.1.6",
-    "typescript": "^3.4.5"
+    "@types/nock": "^11.1.0",
+    "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "ts-lib-tools": "^0.4.7",
+    "typescript": "^3.6.3"
   },
   "publishConfig": {
     "access": "public"
