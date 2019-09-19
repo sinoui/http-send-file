@@ -1,5 +1,8 @@
 # @sinoui/http-send-file
 
+[![npm version](https://img.shields.io/npm/v/@sinoui/http-send-file)](https://www.npmjs.com/package/@sinoui/http-send-file)
+[![downloads](https://img.shields.io/npm/dm/@sinoui/http-send-file)](https://www.npmjs.com/package/@sinoui/http-send-file)
+
 @sinoui/http-send-file 旨在提供一种便捷的方式用于文件上传。
 
 ## 安装
@@ -36,15 +39,14 @@
 ```ts
 import sendFile from '@sinoui/http-send-file';
 
-function uploadFile() {
+async function uploadFile() {
   const file = document.getElementById('file').files[0];
-  sendFile('http://localhost:3000/files', file)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('上传成功');
-      }
-    })
-    .catch((error) => console.error('上传失败'));
+  try {
+    await sendFile('http://localhost:3000/files', file);
+    console.log('上传成功');
+  } catch (error) {
+    console.error('上传失败');
+  }
 }
 ```
 
