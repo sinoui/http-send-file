@@ -1,11 +1,11 @@
 {
   "name": "@sinoui/http-send-file",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "文件上传",
   "license": "MIT",
   "main": "dist/index.js",
   "umd:main": "dist/http-send-file.umd.production.js",
-  "module": "dist/http-send-file.es.production.js",
+  "module": "dist/sinoui-http-send-file.esm.js",
   "typings": "dist/index.d.ts",
   "bugs": {
     "url": "https://github.com/sinoui/http-send-file/issues"
