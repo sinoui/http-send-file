@@ -1,6 +1,6 @@
 {
   "name": "@sinoui/http-send-file",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "文件上传",
   "license": "MIT",
   "main": "dist/index.js",
